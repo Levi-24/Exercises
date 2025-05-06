@@ -1,0 +1,25 @@
+php artisan serve
+php artisan route:list -> útvonalak végpontok
+
+
+GET – http://127.0.0.1:8000/api/contents
+GET/ID – http://127.0.0.1:8000/api/contents/1
+DELETE/ID – http://127.0.0.1:8000/api/contents/1
+
+POST – http://127.0.0.1:8000/api/contents
+POST formátum:
+{
+    "name": "Post teszt",
+    "title": "Valami",
+    "other": 123
+}
+
+PUT/ID – http://127.0.0.1:8000/api/contents/4
+PUT/ID formátum:
+{
+    "name": "Put teszt",
+    "title": "Valami",
+    "other": 123
+}
+
+
