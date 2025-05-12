@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hu" ng-app="csokiApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Csokik listája</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .raktaron {
+            background-color: #d4edda;
+        }
+
+        .nincs-raktaron {
+            background-color: #f8d7da;
+        }
+    </style>
+</head>
+
+<body ng-controller="CsokiController">
+
+    <div class="container mt-4">
+
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Keresés név alapján..." ng-model="kereses">
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3" ng-repeat="csoki in csokik | filter: { nev: kereses }">
+                <div class="p-3 rounded shadow-sm" ng-class="csoki.raktaron ? 'raktaron' : 'nincs-raktaron'">
+                    <h5>{{ csoki.nev }}</h5>
+                    <p>Ár: {{ csoki.ara }} Ft</p>
+                    <p>{{ csoki.raktaron ? 'Van raktáron' : 'Nincs raktáron' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        angular.module('csokiApp', [])
+            .controller('CsokiController', function ($scope, $http) {
+                $http.get('http://127.0.0.1:8000/api/read').then(function (response) {
+                    $scope.csokik = response.data;
+                    console.log("Csokik betöltve:", $scope.csokik);
+                }, function (error) {
+                    console.error("Hiba történt a csokik.json betöltésekor:", error);
+                });
+            });
+    </script>
+</body>
+
+</html>
