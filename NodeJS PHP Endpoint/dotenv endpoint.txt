@@ -1,0 +1,115 @@
+//COMMANDS
+//npm install dotenv
+//composer init
+//composer install
+//composer require vlucas/phpdotenv
+
+.env:
+DB_HOST = localhost
+DB_USER = root
+DB_PASS =
+DB_NAME = brickhub
+
+////////////////////////////
+	connect.php:
+////////////////////////////
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+header('Content-Type: text/html; charset=utf-8');
+
+define('DB_HOST', $_ENV['DB_HOST']);
+define('DB_USER', $_ENV['DB_USER']);
+define('DB_PASS', $_ENV['DB_PASS']);
+define('DB_NAME', $_ENV['DB_NAME']);
+
+$dbconn = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+mysqli_query($dbconn, "SET NAMES utf8");
+
+return $dbconn;
+
+/////////////////////////////////
+	connect_test.php
+/////////////////////////////////
+<?php
+
+require_once __DIR__ . '/connect.php';
+
+/**
+ * @param mysqli $dbconn adatbázis kapcoslat
+ */
+
+function testDatabaseConnection($dbconn)
+{
+    if ($dbconn->connect_error) {
+        die("Connection failed: " . $dbconn->connect_error);
+    }
+    echo "Connected successfully";
+}
+
+function testCharacterEncoding($dbconn)
+{
+    $result = mysqli_query($dbconn, "SHOW VARIABLES LIKE 'character_set_connection';");
+    $row = mysqli_fetch_assoc($result);
+
+    if ($row['Value'] === 'utf8') {
+        echo "Character encoding is UTF-8";
+    } else {
+        echo "Character encoding is not UTF-8" . htmlspecialchars($row['Value']);
+    }
+}
+
+function testEnvironmetVariables()
+{
+    $requireKeys = ['DB_HOST', 'DB_USER', 'DB_PASS', 'DB_NAME'];
+    $missingKeys = [];
+
+    foreach ($requireKeys as $key) {
+        if (!isset($_ENV[$key])) {
+            $missingKeys[] = $key;
+        }
+    }
+
+    if (empty($missingKeys)) {
+        echo "All environment variables are set";
+    } else {
+        echo "Missing environment variables: " . implode(', ', $missingKeys);
+    }
+}
+
+echo "<h2>Connection test</h2>";
+testDatabaseConnection($dbconn);
+echo "<h2>Character encoding test</h2>";
+testCharacterEncoding($dbconn);
+echo "<h2>Environment variables test</h2>";
+testEnvironmetVariables();
+
+$dbconn->close();
+
+//////////////////////////////
+	endpoint.php:
+//////////////////////////////
+<?php
+$dbconn = require "connect.php";
+
+$sql = "SELECT * FROM games";
+$result = $dbconn->query($sql);
+
+$data = [];
+
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+}
+
+$json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+header('Content-Type: application/json');
+echo $json;
+
+$dbconn->close();
