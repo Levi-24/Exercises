@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Jelentkezési lap</title>
+</head>
+<body>
+    <h1>Jelentkezés lap</h1>
+    <div class="wrapper">
+        <form action="feldolgozas.php" method="post" enctype="multipart/form-data">
+            <label for="nev">Teljes név:</label><br>
+            <input class="custom" type="text" id="nev" name="nev" placeholder="Írja be a nevét" required><br>
+    
+            <label for="email">Email:</label><br>
+            <input class="custom" type="email" id="email" name="email" placeholder="Írja be az email címét" required><br>
+    
+            <label for="jelszo">Jelszó:</label><br>
+            <input class="custom" type="password" id="jelszo" name="jelszo" placeholder="Írjon be egy jelszót" required><br>
+    
+            <label for="kor">Kor:</label><br>
+            <input class="custom" type="number" id="kor" name="kor" placeholder="Írja be az életkorát" required><br>
+    
+            <label for="szuldatum">Születési dátum:</label><br>
+            <input class="custom" type="date" id="szuldatum" name="szuldatum" required><br>
+    
+            <label for="orszag">Ország:</label><br>
+            <select class="custom" id="orszag" name="orszag" required>
+                <option value="" disabled selected>Válasszon országot</option>
+                <option value="Magyarország">Magyarország</option>
+                <option value="Románia">Románia</option>
+                <option value="Szlovákia">Szlovákia</option>
+            </select>
+    
+
+            <fieldset>            
+                <legend>Hobbi:</legend>
+                <label for="sport">Sport</label>
+                <input type="checkbox" id="sport" name="hobbi[]" value="Sport">
+                <label for="olvasas">Olvasás</label>
+                <input type="checkbox" id="olvasas" name="hobbi[]" value="Olvasás">
+                <label for="utazas">Utazás</label>
+                <input type="checkbox" id="utazas" name="hobbi[]" value="Utazás">
+            </fieldset>
+
+    
+            <fieldset>
+                <legend>Nemed:</legend>
+                <label for="ferfi">Férfi</label>
+                <input type="radio" id="ferfi" name="nem" value="Férfi" required>
+                <label for="no">Nő</label>
+                <input type="radio" id="no" name="nem" value="Nő">
+            </fieldset>
+
+            <fieldset>            
+                <legend for="bemutatkozas">Bemutatkozás:</legend>
+                <textarea id="bemutatkozas" name="bemutatkozas" rows="5" cols="30" placeholder="Írjon magáról pár szót"></textarea>
+            </fieldset>
+
+            <label for="fenykep">Fénykép feltöltése:</label>
+            <input type="file" id="fenykep" name="fenykep" accept="image/*"><br><br>
+    
+            <button type="submit">Küldés</button>
+        </form>
+    </div>
+</body>
+</html>
