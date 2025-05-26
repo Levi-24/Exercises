@@ -1,0 +1,34 @@
+// A ToString() metódus felülírása az Object osztályból, hogy egyedi szöveges reprezentációt adjon az objektumnak.
+// A "public" láthatóság biztosítja, hogy a metódus bárhonnan elérhető legyen.
+// Az "override" kulcsszó jelzi, hogy az ősosztály (Object) virtuális ToString() metódusát írjuk felül.
+// A "string" visszatérési típus azt mutatja, hogy a metódus egy szöveges (string) értéket ad vissza.
+public override string ToString()
+{
+    // Deklarálunk egy double típusú változót "atlagFogyasztas" néven, amely az autó városi és országúti fogyasztásának átlagát tárolja.
+    // A VarosiFogyasztas és PalyaFogyasztas feltételezhetően osztályváltozók vagy tulajdonságok, amelyek liter/100km-ben adják meg a fogyasztást.
+    // Az összeadás (VarosiFogyasztas + PalyaFogyasztas) majd az osztás (/ 2) kiszámolja az átlagot.
+    // Miért jó? Az átlagfogyasztás egy hasznos, összefoglaló adat, amit gyakran használnak az autó jellemzőinek bemutatására.
+    double atlagFogyasztas = (VarosiFogyasztas + PalyaFogyasztas) / 2;
+
+    // A "return" kulcsszóval egy formázott sztringet adunk vissza, amely az objektum szöveges reprezentációját tartalmazza.
+    // A $"{...}" egy C# string interpoláció, ami lehetővé teszi változók és kifejezések közvetlen beillesztését a szövegbe.
+    // Miért jó? A string interpoláció olvashatóbb és kevésbé hibára hajlamos, mint a hagyományos konkatenáció vagy string.Format().
+    return $"{Azonosito}: {Gyarto.GyartoNev} {Modell}, Évjárat: {Evjarat}, Fogyasztás: {atlagFogyasztas:F2} l/100km";
+
+    // Az egyes részek magyarázata:
+    // - Azonosito: Valószínűleg egy osztályváltozó vagy tulajdonság, amely egyedi azonosítót tárol az autóhoz (pl. rendszám vagy kód).
+    //   Miért jó? Az azonosító segít megkülönböztetni az objektumot másoktól, pl. egy listában.
+    // - ": ": Statikus szöveg, amely elválasztja az azonosítót a további adatoktól, vizuálisan rendezettebbé téve a kimenetet.
+    // - Gyarto.GyartoNev: A "Gyarto" valószínűleg egy osztály vagy objektum, amelynek "GyartoNev" tulajdonsága a gyártó nevét adja (pl. "Toyota").
+    //   Miért jó? Az objektumorientált megközelítés (Gyarto objektum használata) lehetővé teszi a gyártó adatainak külön kezelését és újrafelhasználását.
+    // - Modell: Egy osztályváltozó vagy tulajdonság, amely az autó modelljét tárolja (pl. "Corolla").
+    //   Miért jó? A modell egy alapvető jellemző, amely egyértelműen azonosítja az autó típusát.
+    // - ", Évjárat: ": Statikus szöveg, amely elválasztja az adatokat és egyértelművé teszi, hogy az évjárat következik.
+    // - Evjarat: Egy osztályváltozó vagy tulajdonság, amely az autó gyártási évét tartalmazza (pl. 2020).
+    //   Miért jó? Az évjárat fontos információ, amely befolyásolja az autó értékét és állapotát.
+    // - ", Fogyasztás: ": Statikus szöveg, amely jelzi, hogy a következő adat az átlagfogyasztás.
+    // - atlagFogyasztas:F2: Az előzőleg kiszámított átlagfogyasztást jeleníti meg, az ":F2" formázási utasítás két tizedesjegyre kerekíti az értéket.
+    //   Miért jó? A két tizedesjegy pontos, de nem túl részletes, így könnyen értelmezhető (pl. 6.50 helyett 6.5).
+    // - " l/100km": Statikus szöveg, amely az egységet jelzi (liter per 100 kilométer).
+    //   Miért jó? Az egység megadása egyértelművé teszi, hogy mit jelent a szám, elkerülve a félreértéseket.
+}

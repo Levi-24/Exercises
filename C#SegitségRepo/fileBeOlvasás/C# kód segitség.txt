@@ -1,0 +1,113 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Globalization;
+-----------------------------------------------------------------------
+// Egy másik osztály példa: lehet kategória, típus vagy bármi
+class Kategoria
+{
+
+    public int Id { get; set; }
+
+    public string Nev { get; set; }
+
+    public Kategoria(int id string nev)
+    {   
+	Id = id;
+        Nev = nev;
+    }
+
+    public override string ToString()
+    {
+        return Nev;
+    }
+}
+-----------------------------------------------------------------------
+
+// Fő osztályban elhelyezve 
+class SajatOsztalyNeved
+{
+    public string Nev { get; set; }
+    public bool Dijazott { get; set; }
+    public int Ara { get; set; }
+    public DateTime Datum { get; set; }      // pl. mikor készült
+    public double Suly { get; set; }         // pl. 0.45 kg
+    public Kategoria Kategoriaja { get; set; } // összetett típus
+
+    // Konstruktor: feldolgozza a sort a fájlból
+    public SajatOsztalyNeved(string sor)
+    {
+-----------------------------------------------------------------------
+a fájlodat szét választása ha tabbal van elválasztva \t ha enterrel van valami faszsáság miat \n 
+        string[] adatok = sor.Split(';');
+-----------------------------------------------------------------------
+        Nev = adatok[0];
+        Dijazott = adatok[1].ToLower() == "true";
+        Ara = int.Parse(adatok[2]);
+        Datum = DateTime.ParseExact(adatok[3], "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        Suly = double.Parse(adatok[4], CultureInfo.InvariantCulture);
+        Kategoriaja = new Kategoria(int.Parse(adatok[5]), adatok[6]);
+    }
+}
+-----------------------------------------------------------------------
+WPF es fájl be olvasás:
+
+    public partial class MainWindow : Window
+    {
+        private List<Osztályod neve> tagváltozó = new List<ismét az osztályod>();
+
+
+        public MainWindow()
+        {
+		A metodusód és ()jel;
+		pl.: LoadFromCsv(); 
+        }
+        private void Metodúsod neve()
+        {
+            string[] lines = File.ReadAllLines(@"filenak elérési útvonala");
+            foreach (string line in lines)
+            {
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    tagváltozó.Add(new osztályod neve(line));
+                }
+            }
+        }
+-----------------------------------------------------------------------
+Consolos file beolvasás .txt
+
+            List<Osztályod neve> tagváltozó = new List<Osztályod neve>();
+            StreamReader streamReader = new StreamReader(
+                            path: @"a txt filenak elérési utvonala",
+				file encoding utf-8 asra
+                            encoding: System.Text.Encoding.UTF8);
+            var src = streamReader;
+            while (!src.EndOfStream)
+            {
+                string sor = src.ReadLine(); // sor beolvasása
+                OsztalyNeve objektum = new OsztalyNeve(sor); // objektum létrehozása a sor alapján
+                tagValtozo.Add(objektum); // lista bővítése
+            }
+
+
+-----------------------------------------------------------------------
+Consolos file beolvasás csv filehoz
+
+    public static List<Osztályod neve> LoadFromCsv(string filePath)
+    {
+        List<Osztályod neve> tagváltozó = new();
+        using (StreamReader sr = new(filePath))
+        {
+            sr.ReadLine();  
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    tagváltozó.Add(new Osztályod neve(line));
+                }
+            }
+        }
+        return tagváltozó;
+    }
+-----------------------------------------------------------------------
