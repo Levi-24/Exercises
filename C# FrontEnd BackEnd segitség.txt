@@ -1,0 +1,567 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Globalization;
+-----------------------------------------------------------------------
+// Egy másik osztály példa: lehet kategória, típus vagy bármi
+class Kategoria
+{
+
+    public int Id { get; set; }
+
+    public string Nev { get; set; }
+
+    public Kategoria(int id string nev)
+    {   
+	Id = id;
+        Nev = nev;
+    }
+
+    public override string ToString()
+    {
+        return Nev;
+    }
+}
+-----------------------------------------------------------------------
+
+// Fő osztályban elhelyezve 
+class SajatOsztalyNeved
+{
+    public string Nev { get; set; }
+    public bool Dijazott { get; set; }
+    public int Ara { get; set; }
+    public DateTime Datum { get; set; }      // pl. mikor készült
+    public double Suly { get; set; }         // pl. 0.45 kg
+    public Kategoria Kategoriaja { get; set; } // összetett típus
+
+    // Konstruktor: feldolgozza a sort a fájlból
+    public SajatOsztalyNeved(string sor)
+    {
+-----------------------------------------------------------------------
+a fájlodat szét választása ha tabbal van elválasztva \t ha enterrel van valami faszsáság miat \n 
+        string[] adatok = sor.Split(';');
+-----------------------------------------------------------------------
+        Nev = adatok[0];
+        Dijazott = adatok[1].ToLower() == "true";
+        Ara = int.Parse(adatok[2]);
+        Datum = DateTime.ParseExact(adatok[3], "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        Suly = double.Parse(adatok[4], CultureInfo.InvariantCulture);
+        Kategoriaja = new Kategoria(int.Parse(adatok[5]), adatok[6]);
+    }
+}
+-----------------------------------------------------------------------
+WPF es fájl be olvasás:
+
+    public partial class MainWindow : Window
+    {
+        private List<Osztályod neve> tagváltozó = new List<ismét az osztályod>();
+
+
+        public MainWindow()
+        {
+		A metodusód és ()jel;
+		pl.: LoadFromCsv(); 
+        }
+        private void Metodúsod neve()
+        {
+            string[] lines = File.ReadAllLines(@"filenak elérési útvonala");
+            foreach (string line in lines)
+            {
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    tagváltozó.Add(new osztályod neve(line));
+                }
+            }
+        }
+-----------------------------------------------------------------------
+Consolos file beolvasás .txt
+
+            List<Osztályod neve> tagváltozó = new List<Osztályod neve>();
+            StreamReader streamReader = new StreamReader(
+                            path: @"a txt filenak elérési utvonala",
+				file encoding utf-8 asra
+                            encoding: System.Text.Encoding.UTF8);
+            var src = streamReader;
+            while (!src.EndOfStream)
+            {
+                string sor = src.ReadLine(); // sor beolvasása
+                OsztalyNeve objektum = new OsztalyNeve(sor); // objektum létrehozása a sor alapján
+                tagValtozo.Add(objektum); // lista bővítése
+            }
+
+
+-----------------------------------------------------------------------
+Consolos file beolvasás csv filehoz
+
+    public static List<Osztályod neve> LoadFromCsv(string filePath)
+    {
+        List<Osztályod neve> tagváltozó = new();
+        using (StreamReader sr = new(filePath))
+        {
+            sr.ReadLine();  
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    tagváltozó.Add(new Osztályod neve(line));
+                }
+            }
+        }
+        return tagváltozó;
+    }
+-----------------------------------------------------------------------
+WPF csv file beolvasása: A MainWindow.xaml.csbe kell csinálni ha az osztályok el készűltek.
+
+
+
+        private List<Main osztály> tag változó = new List<Main osztály>();
+
+
+	public MainWindow()
+	{
+	    InitializeComponent();
+    	    LoadFile(); // file beolvasáshoz szükséges metodusod
+
+
+
+	}
+private void LoadFile()
+{
+    try
+    {
+        string[] lines = File.ReadAllLines(@"..\..\..\src\be olvasandó fileodnak a neve").Skip(1).ToArray(); // első sor át ugrássa
+        foreach (string line in lines)
+        {
+            if (!string.IsNullOrWhiteSpace(line))
+            {
+                tag változó.Add(new Main osztályod(line));
+            }
+        }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Error loading file: {ex.Message}");
+    }
+}
+-----------------------------------------------------------------------
+A main osztályban elhelyezett LoadFromcsv metódus
+
+ public static List<Osztályod neve> metodús neve(string carsData/file neve)
+ {
+     List<Osztályod neve> tag változó = new();
+     using (StreamReader sr = new(carsData/file neve))
+     {
+         sr.ReadLine(); // első sor át ugrássa
+         while (!sr.EndOfStream)
+         {
+             string line = sr.ReadLine();
+             if (!string.IsNullOrWhiteSpace(line))
+             {
+                 tagváltozó.Add(new Main oszályod neve(line));
+             }
+         }
+     }
+     return tag változó;
+ }
+
+----------------------
+Program.cs be kelll készítened csv file beolvasáshoz 
+----------------------
+static void Main(string[] args)
+{
+    string carsData/filePath = Path.Combine("../../../src/carsData.csv");
+
+    List<Main osztályod> tagváltozó = Osztályod.Metodus neve(carsData/filepath);
+
+    foreach (var auto in tagváltozó)
+    {
+        Console.WriteLine(auto);
+        Console.WriteLine(); // üres sor az olvashatóság kedvéért
+    }
+
+-----------------------------------------------------------------------
+to string virtuális metodús
+----------------------
+
+        public override string ToString()
+        {
+
+            double atlagFogyasztas = (Fogyasztasvarosban + FogyasztasPalya) / 2;
+            double ftToCad = (Ar * 248.02);
+
+            return $"{Azonosito} autó:\n " +
+                $"\t Gyártó - modell:{Gyarto.GyartoNev} {Modell} \n " +
+                $"\tFogyasztás: {atlagFogyasztas:F2} l/100 km \n" +
+                $"\t Kilométeróra állása: {Kilometer} km \n" +
+                $"\t Váltó típusa {Valto}\n" +
+                $"\t Ára (CAD): {Ar} \n" +
+                $"\t Ára (HUF): {ftToCad:F2}";
+
+
+
+
+        }
+-----------------------------------------------------------------------
+ha több dolgot kell egyszerre ki keresned a Program.csben
+            var rollsRoyceSedan8Henger = autocs
+                .Where(c =>
+                    c.Gyarto.GyartoNev == "Rolls-Royce" &&
+                    c.Karosszeria.KarosszerNev.ToLower() == "sedan" &&
+                    c.Hengerek == 8
+                )
+                .ToList();
+------------------------------------------------------------------------
+legnagyobb Max értékre keresünk rá:
+            int maxAr = autocs.Max(x => x.Ar);
+----------------------
+// Megkeressük az autót ezzel az árral (feltételezve, hogy csak egy ilyen van)
+            var legdragabbAuto = autocs.First(x => x.Ar == maxAr);
+----------------------
+            // Kiírás a ToString() metódus alapján
+            Console.WriteLine(legdragabbAuto);
+----------------------
+List<string> változó = new List<string>
+    {
+	listázandó eleemek 
+        "Aston Martin",
+        "Ferrari",
+        "McLaren",
+        "Mercedes-Benz",
+        "Porsche"
+    };
+
+// Kiválogatás
+var változó = tagváltozó
+    .Where(a => változó(nem a tag változó).Contains(a.Gyarto.GyartoNev))
+    .Select(a => $"{a.Azonosito};{a.Gyarto.GyartoNev};{a.Modell};{a.Evjarat};{a.Kilometer}")
+    .ToList();
+
+// Kiírás fájlba
+string kimenetiFajl = @"../../../src/forma-1.txt(file elérési útvonal)";
+File.WriteAllLines(kimenetiFajl, változó(szint úgy nem a tagváltozó));
+
+Console.WriteLine($"Kész: {változó(nem a tagváltozó).Count} sor kiírva a '{kimenetiFajl}' fájlba.");
+------------------------------------------------------------------------
+Mikor használd a .Key-t?
+Mindig, amikor GroupBy után szeretnéd elérni a csoportosító értéket.
+
+Például: ha év, típus, ország, gyártó, kategória szerint csoportosítasz.
+
+Ez az a tulajdonság, ami alapján a csoportosítás történt.
+
+ // Lista létrehozása
+            List<Auto> autok = new List<Auto>
+            {
+                new Auto("BMW", 2020),
+                new Auto("Audi", 2020),
+                new Auto("Toyota", 2021),
+                new Auto("Mercedes", 2021),
+                new Auto("Opel", 2022),
+                new Auto("Ford", 2022),
+                new Auto("Ferrari", 2022)
+            };
+
+            // Csoportosítás évjárat szerint
+            var csoport = autok.GroupBy(a => a.Evjarat);
+
+            // Egyszerű kiírás
+            Console.WriteLine("Egyszerű csoportosított kiírás:");
+            foreach (var evGr in csoport)
+            {
+                Console.WriteLine($"{evGr.Key} évben {evGr.Count()} autó van.");
+            }
+
+            Console.WriteLine("\nRészletesebb kiírás minden autóval:");
+
+            // Bővebb kiírás: csoporton belül az elemek is
+            foreach (var evGr in csoport)
+            {
+                Console.WriteLine($"\nÉv: {evGr.Key}, db: {evGr.Count()} autó");
+                foreach (var auto in evGr)
+                {
+                    Console.WriteLine($"\tGyártó: {auto.Gyarto}, Évjárat: {auto.Evjarat}");
+                }
+            }
+
+            Console.ReadLine(); // Konzol ablak nyitva marad
+        }
+    }
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+FRONTEND
+
+
+<!DOCTYPE html>
+<html lang="en" ng-app="myOffer"> <!-- AngularJS alkalmazás kezdete, 'myOffer' névvel -->
+
+<head>
+    <meta charset="UTF-8"> <!-- Karakterkódolás beállítása -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobilbarát nézet beállítása -->
+    
+    <!-- Bootstrap CSS betöltése (a reszponzív és stílusos megjelenésért) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    
+    <!-- Saját CSS fájl betöltése -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- AngularJS betöltése -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    
+    <title>Frontend</title> <!-- Böngésző fül címe -->
+</head>
+
+<body ng-controller="OfferController"> <!-- AngularJS vezérelt rész, amit az 'OfferController' irányít -->
+
+    <!-- Hibák megjelenítése, ha valami hiba történik az adatlekérés során -->
+    <div class="eroor_messege" ng-if="error">
+        {{error}} <!-- A hiba szövegének kiírása -->
+    </div>
+
+    <h1>Offers</h1> <!-- Főcím -->
+
+    <div class="container"> <!-- Bootstrap konténer -->
+        <div class="row"> <!-- Sor kezdete -->
+        
+            <!-- Egy-egy ajánlat megjelenítése kártyák formájában, AngularJS ciklussal -->
+            <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="offer in offers">
+                <!-- ng-repeat = minden 'offer' objektumra létrehoz egy kártyát -->
+
+                <div class="card"> <!-- Bootstrap kártya -->
+
+                    <!-- Kép megjelenítése. Ha nincs meg a kép, akkor elrejti magát, és megjelenik a hibaüzenet -->
+                    <img ng-src="img/{{offer.image_name}}" 
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='block'" 
+                         class="card-img-top" alt="...">
+
+                    <!-- Ha nem található a kép, ez a szöveg jelenik meg -->
+                    <span class="errorSzoveg">
+                        szar a kép
+                    </span>
+
+                    <div class="card-body"> <!-- Kártya tartalma -->
+                        <h5 class="card-title">{{offer.name}}</h5> <!-- Ajánlat neve -->
+                        <p class="card-text">{{offer.description}}</p> <!-- Leírás -->
+                        <h2>{{offer.price}}</h2> <!-- Ár -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AngularJS alkalmazás definíció -->
+    <script>
+        var app = angular.module('myOffer', []) // AngularJS alkalmazás létrehozása
+
+        // Kontroller definiálása
+        app.controller('OfferController', function ($scope, $http) {
+            $scope.error = null; // Hibaüzenet alapértelmezetten üres
+            $scope.offers = [];  // Ajánlatok listája kezdetben üres
+
+            // HTTP GET kérés az 'offers.json' fájlhoz (ami az ajánlatokat tartalmazza)
+            $http.get('offers.json').then(function (response) {
+                // Ha sikeres a lekérés és van 'data' objektum, benne 'status' és 'data'
+                if (response.data && response.data.status === "success" && response.data.data) {
+                    $scope.offers = response.data.data; // Ekkor betöltjük az ajánlatokat
+                }
+                else {
+                    $scope.error = "Get away error"; // Ha nem megfelelő a válasz szerkezete
+                }
+            }).catch(function (error) {
+                // Ha valamilyen hiba történik (pl. nem található fájl)
+                $scope.error = "Bad offer";
+                console.error("bad offer", error);
+            })
+        })
+    </script>
+
+    <!-- Bootstrap JavaScript (modálisok, dropdownok működéséhez) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+BACKEND
+
+<?php
+
+namespace App\Http\Controllers;
+use App\Models\Ingatlan;
+use App\Models\Kategoria;
+use Illuminate\Http\Request;
+
+class IngatlanController extends Controller
+{
+    public function index()
+    {
+        return Ingatlan::with('kategoriak')->get()
+            ->map(function ($ingatlan) {
+                return [
+                    'Id' => $ingatlan->id,
+                    'kategoria' => $ingatlan->kategoria->nev,
+                    'leiras' => $ingatlan->leiras,
+                    'hirdetesDatuma' => $ingatlan->hirdetesDatuma,
+                    'tehermentes' => $ingatlan->tehermentes,
+                    'ar' => $ingatlan->ar,
+                    'kepUrl' => $ingatlan->kepUrl
+                ];
+            });
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'kategoria' => 'required|exists:kategoriak,id',
+            'leiras' => 'required',
+            'hirdetesDatuma' => 'required|date',
+            'tehermentes' => 'required|boolean',
+            'ar' => 'required|integer',
+            'kepUrl' => 'required|url',
+        ]);
+
+        $ingatlan = Ingatlan::create([
+            'kategoria_id' => $validated['kategoria'],
+            'leiras' => $validated['leiras'],
+            'hirdetesDatuma' => $validated['hirdetesDatuma'],
+            'tehermentes' => $validated['tehermentes'],
+            'ar' => $validated['ar'],
+            'kepUrl' => $validated['kepUrl'],
+        ]);
+
+        return response()->json(['Id' => $ingatlan->id], 201);
+    }
+
+    public function destroy($id)
+    {
+        $ingatlan = Ingatlan::find($id);
+
+        if (!$ingatlan) {
+            return response()->json("Az ingatlan nem létezik.", 404);
+        }
+
+        $ingatlan->delete();
+        return response()->noContent(); // 204
+    }
+}
+
+----------------------------------------------------------------------------
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Kategoria;
+use Illuminate\Http\Request;
+
+class KategoriaController extends Controller
+{
+    // Összes kategória lekérdezése
+    public function index()
+    {
+        return Kategoria::all();
+    }
+
+    // Egy kategória lekérdezése ID alapján
+    public function show($id)
+    {
+        return Kategoria::findOrFail($id);
+    }
+
+    // Új kategória létrehozása
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nev' => 'required|string|max:255',
+        ]);
+
+        return Kategoria::create([
+            'nev' => $request->input('nev'),
+        ]);
+    }
+
+    // Kategória frissítése
+    public function update(Request $request, $id)
+    {
+        $kategoria = Kategoria::findOrFail($id);
+
+        $request->validate([
+            'nev' => 'required|string|max:255',
+        ]);
+
+        $kategoria->nev = $request->input('nev');
+        $kategoria->save();
+
+        return $kategoria;
+    }
+
+    // Kategória törlése
+    public function destroy($id)
+    {
+        $kategoria = Kategoria::findOrFail($id);
+        $kategoria->delete();
+
+        return response()->json(['message' => 'Sikeresen törölve.']);
+    }
+}
+-----------------------------------------------------------------------
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+// app/Models/Ingatlan.php
+
+class Ingatlan extends Model
+{
+    public $timestamps = false;
+    protected $table = 'ingatlanok';
+    protected $fillable = ['kategoria', 'leiras', 'hirdetesDatuma', 'tehermentes', 'ar', 'kepUrl'];
+
+    public function kategoria()
+    {
+        return $this->belongsTo(Kategoria::class, 'kategoria');
+    }
+}
+-------------------------------------------------------------------------
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+// app/Models/Kategoria.php
+
+class Kategoria extends Model
+{
+    public $timestamps = false;
+    protected $table = 'kategoriak';
+    protected $fillable = ['nev'];
+}
+--------------------------------------------------------------------------
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\IngatlanController;
+
+Route::get('/ingatlan', [IngatlanController::class, 'index']);
+Route::post('/ingatlan', [IngatlanController::class, 'store']);
+Route::delete('/ingatlan/{id}', [IngatlanController::class, 'destroy']);
+use App\Http\Controllers\KategoriaController;
+
+Route::get('/kategoriak', [KategoriaController::class, 'index']);
+Route::get('/kategoriak/{id}', [KategoriaController::class, 'show']);
+Route::post('/kategoriak', [KategoriaController::class, 'store']);
+Route::put('/kategoriak/{id}', [KategoriaController::class, 'update']);
+Route::delete('/kategoriak/{id}', [KategoriaController::class, 'destroy']);
+
+
+
+
+
+
