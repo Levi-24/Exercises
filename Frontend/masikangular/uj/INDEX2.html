@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MyApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>asdasdsadasd</title>
+</head>
+<body ng-controller="MyController">
+    <h1>termék katalógus</h1>
+    <div class="errormessage" ng-if="error">
+        {{error}}
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <td>Név</td>
+                <td>description</td>
+                <td>Kép</td>
+                <td>Ár</td>
+            </tr>
+        </thead>
+        <tbody ng-repeat="x in offers">
+            <tr>
+                <td>{{x.name}}</td>
+                <td>{{x.description}}</td>
+                <td>
+                    <img ng-src="{{img/x.image_name}}" onerror=" this.style.display='none'; this.nextElementSimling.style.display='block'">
+                    <span class="szar">Nem jó a kép</span>
+                </td>
+                <td>{{x.price}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        var app = angular.module("MyApp",[]);
+        app.controller("MyContoller",function($scope,$http){
+            scope.error = null;
+            scope.offers = [];
+            $http.get('offers.json').then(function(response){
+                if (response.data && response.data.status==='success'&& response.data.data) {
+                    $scope.offers = response.data.data                    
+                }
+                else{
+                    $scope.error = "Gateway error";
+                }
+            }).catch(function(error){
+                    $scope.error = "nem betölthetőek a termékek";
+                    console.error("szar a termék",error);
+                })
+        })
+
+
+
+    </script>
+</body>
+</html>

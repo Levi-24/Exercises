@@ -1,0 +1,40 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "1",
+      "name": "Kerékpártúra az Alpokban",
+      "description": "Fedezd fel az Alpok csodás tájait hegyi kerékpáron!",
+      "price": "499.99",
+      "image_name": "mountain_bike.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Digitális Nomád Tábor",
+      "description": "Dolgozz és utazz egyszerre egy távoli tengerparton!",
+      "price": "899.99",
+      "image_name": "smartphone.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Kávékóstoló Toskánában",
+      "description": "Éld át a toszkán reggeleket egy kávészakértő vezetésével.",
+      "price": "79.99",
+      "image_name": "coffee_maker.jpg"
+    },
+    {
+      "id": "4",
+      "name": "E-sport Tábor",
+      "description": "Intenzív videojátékos edzés a legjobb felszereléssel.",
+      "price": "1499.99",
+      "image_name": "gaming_laptop.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Csendes Menedék",
+      "description": "Teljes kikapcsolódás természetközeli hangulatban.",
+      "price": "199.99",
+      "image_name": "wireless_headphones.jpg"
+    }
+  ]
+}
